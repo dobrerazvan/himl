@@ -16,6 +16,7 @@ import logging
 import pathlib2
 import yaml
 from deepmerge import Merger
+import functools
 
 from .interpolation import InterpolationResolver, EscapingResolver, InterpolationValidator, SecretResolver, \
     DictIterator, replace_parent_working_directory, EnvVarResolver
@@ -194,6 +195,7 @@ class ConfigGenerator(object):
         return sorted(yaml_files)
 
     @staticmethod
+    @functools.cache
     def yaml_get_content(yaml_file):
         with open(yaml_file, 'r') as f:
             content = yaml.load(f, Loader=yaml.SafeLoader)
